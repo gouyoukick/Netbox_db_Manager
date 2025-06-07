@@ -1,0 +1,8 @@
+name,ip,container
+NETBOX-INITIAL,172.19.2.1,netbox-initial-postgres
+NETBOX-STOCK,172.19.2.1,netbox-stock-postgres
+NETBOX-SMALLBIRD-LIVE,172.19.2.1,netbox-smallbird-live-postgres
+NETBOX-SMALLBIRD-PREP,172.19.2.1,netbox-smallbird-prep-postgres
+NETBOX-BIGBIRD-LIVE,172.19.2.1,netbox-bigbird-live-postgres
+NETBOX-BIGBIRD-PREP,172.19.2.1,netbox-bigbird-prep-postgres
+Netbox Local,10.40.25.74,netbox-postgres
