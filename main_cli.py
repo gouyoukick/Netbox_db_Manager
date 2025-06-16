@@ -1,15 +1,21 @@
 from frontend import (
     afficher_menu_principal,
     demander_choix,
-    demander_mot_de_passe,
     afficher_message,
     choisir_source,
     tester_connexion_ssh,
     traiter_export,
-    demander_login
+    traiter_import
 )
 from main import get_sources
 from backend.export_utils import verifier_sudo_password
+from backend.auth_session import get_ssh_credentials
+
+# titre et version logiciel
+titre = "Network_db_Manager: v 0.5"
+print("#" * len(titre))
+print(titre)
+print("#" * len(titre))
 
 
 def main():
@@ -35,12 +41,9 @@ def main():
                 afficher_message("❌ Netbox Source non joignable : vérifiez l'adresse IP ou la connexion réseau.")
                 continue
 
-            # 🔐 Demande du login et mot de passe APRES le choix de la source
-            login_ssh = demander_login()
-            mot_de_passe_sudo = demander_mot_de_passe()
+            ssh_user, sudo_password = get_ssh_credentials()
 
-            # ✅ Test du mot de passe sudo sur la bonne IP
-            if not verifier_sudo_password(login_ssh, mot_de_passe_sudo, source_choisie["ip"]):
+            if not verifier_sudo_password(ssh_user, sudo_password, source_choisie["ip"]):
                 afficher_message("⛔ Mot de passe sudo invalide (sur la machine distante). Fin du programme.")
                 return
 
@@ -51,11 +54,10 @@ def main():
                 afficher_message("⛔ Entrée clavier interrompue.")
                 continue
 
-            # ✅ Export exécuté
-            traiter_export(source_choisie, login_ssh, mot_de_passe_sudo)
+            traiter_export(source_choisie)
 
         elif choix == "2":
-            afficher_message("Fonction d'import non encore disponible.")
+            traiter_import(sources)
 
         elif choix == "3":
             afficher_message("Au revoir !")

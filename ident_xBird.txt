@@ -1,0 +1,5 @@
+# fichier permettant d'identitifer la régie pour simplifier les procédures
+# si choix regie = 1 > BigBird
+# si choix regie = 2 > Smallbird
+
+choix_regie = 2

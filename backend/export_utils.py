@@ -1,3 +1,5 @@
+# === export_utils.py ===
+
 import subprocess
 import os
 from pathlib import Path
@@ -5,9 +7,6 @@ import shutil
 from backend.hash_utils import compute_sha256
 
 def verifier_sudo_password(ssh_user, sudo_password, remote_ip):
-    """
-    Vérifie que le mot de passe sudo est correct sur une machine distante.
-    """
     ssh_key_path = str(Path.home() / ".ssh" / "id_rsa")
     GIT_SSH = "C:/Program Files/Git/usr/bin/ssh.exe"
 
@@ -19,7 +18,6 @@ def verifier_sudo_password(ssh_user, sudo_password, remote_ip):
     )
 
     return result.returncode == 0 and "sorry" not in result.stderr.lower()
-
 
 def export_database_with_verification(source: dict, ssh_user: str, sudo_password: str) -> dict:
     ip = source["ip"]
