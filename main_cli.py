@@ -1,3 +1,5 @@
+# === main_cli.py ===
+
 from frontend import (
     afficher_menu_principal,
     demander_choix,
@@ -9,7 +11,11 @@ from frontend import (
 )
 from main import get_sources
 from backend.export_utils import verifier_sudo_password
-from backend.auth_session import get_ssh_credentials
+from backend.auth_session import (
+    get_ssh_credentials,
+    is_ssh_credentials_set,
+    set_ssh_credentials
+)
 
 # titre et version logiciel
 titre = "Network_db_Manager: v 0.5"
@@ -37,11 +43,17 @@ def main():
             if source_choisie is None:
                 continue
 
+            # Authentification d'abord
+            if not is_ssh_credentials_set():
+                ssh_user = input("Entrez le nom d’utilisateur SSH : ").strip()
+                sudo_password = input("Entrez le mot de passe sudo : ")
+                set_ssh_credentials(ssh_user, sudo_password)
+
+            ssh_user, sudo_password = get_ssh_credentials()
+
             if not tester_connexion_ssh(source_choisie["ip"]):
                 afficher_message("❌ Netbox Source non joignable : vérifiez l'adresse IP ou la connexion réseau.")
                 continue
-
-            ssh_user, sudo_password = get_ssh_credentials()
 
             if not verifier_sudo_password(ssh_user, sudo_password, source_choisie["ip"]):
                 afficher_message("⛔ Mot de passe sudo invalide (sur la machine distante). Fin du programme.")
