@@ -1,4 +1,4 @@
-# === frontend.py === (corrigé pour ping silencieux)
+# === frontend.py ===
 
 import os
 from pathlib import Path
@@ -6,16 +6,15 @@ import getpass
 import subprocess
 
 from backend.import_utils import import_database_with_verification
-from backend.export_utils import (
-    export_database_with_verification
-)
+from backend.export_utils import export_database_with_verification
 from backend.auth_session import (
     is_ssh_credentials_set,
     set_ssh_credentials,
     get_ssh_credentials
 )
 
-EXPORT_PATH = Path("exported_database/exported_netbox_database.sql")
+# Chemin fixe pour le SQL exporté
+EXPORT_PATH = Path("exported_database") / "exported_netbox_database.sql"
 
 
 def afficher_menu_principal():
@@ -24,11 +23,14 @@ def afficher_menu_principal():
     print("  2 - Importer une base")
     print("  3 - Quitter")
 
+
 def demander_choix():
     return input("Entrez votre choix (1, 2 ou 3) : ")
 
+
 def afficher_message(msg):
     print(f"\n{msg}")
+
 
 def demander_utilisateur(message):
     try:
@@ -36,6 +38,7 @@ def demander_utilisateur(message):
     except KeyboardInterrupt:
         print("\nInterruption utilisateur.")
         return ""
+
 
 def choisir_source(sources):
     print("\nDockers disponibles :")
@@ -46,13 +49,11 @@ def choisir_source(sources):
     choix = input("Choisissez une source (numéro) : ")
     if not choix.isdigit():
         return None
-
     index = int(choix)
-    if index == 0:
-        return None
-    if index < 1 or index > len(sources):
+    if index == 0 or index < 1 or index > len(sources):
         return None
     return sources[index - 1]
+
 
 def tester_connexion_ssh(ip):
     param = "-n" if os.name == "nt" else "-c"
@@ -66,6 +67,7 @@ def tester_connexion_ssh(ip):
     except Exception:
         return False
 
+
 def obtenir_ssh_credentials():
     if not is_ssh_credentials_set():
         ssh_user = input("Entrez le nom d’utilisateur SSH : ").strip()
@@ -73,19 +75,21 @@ def obtenir_ssh_credentials():
         set_ssh_credentials(ssh_user, sudo_password)
     return get_ssh_credentials()
 
+
 def traiter_export(source):
     ssh_user, sudo_password = obtenir_ssh_credentials()
     if not ssh_user or not sudo_password:
         print("❌ Identifiants SSH ou mot de passe sudo manquants.")
         return
+
     result = export_database_with_verification(source, ssh_user, sudo_password)
 
-    if result["status"] == "error":
+    if result.get("status") == "error":
         print("❌ Erreur durant l’export de la base.")
-        print(f"🧨 Détail : {result.get('error', 'Erreur inconnue')}")
+        print(f"🧨 Détail : {result.get('message', 'Erreur inconnue')}")
         return
 
-    if result["status"] == "corrupted":
+    if result.get("status") == "corrupted":
         print("⚠️  La copie du fichier semble corrompue !")
         print(f"🔐 SHA256 NAS   : {result['hash_remote']}")
         print(f"🔐 SHA256 local : {result['hash_local']}")
@@ -97,9 +101,10 @@ def traiter_export(source):
     print(f"🔐 SHA256 NAS   : {result['hash_remote']}")
     print(f"🔐 SHA256 local : {result['hash_local']}")
 
+
 def traiter_import(sources):
     print("\n=== IMPORT D’UNE BASE NETBOX ===")
-    print("\n📁 Veuillez placer le fichier de base de données à importer ici :")
+    print("\n📁 Le fichier à importer doit être présent ici :")
     print(f"    ➜ {EXPORT_PATH}")
     input("Appuyez sur Entrée une fois le fichier en place...")
 
@@ -112,7 +117,7 @@ def traiter_import(sources):
         print(f"  {i} - {src['name']} ({src['ip']}, container: {src['container']})")
 
     choix = input("Choisissez une source (numéro) : ")
-    if not choix.isdigit() or int(choix) >= len(sources):
+    if not choix.isdigit() or int(choix) < 0 or int(choix) >= len(sources):
         print("❌ Choix invalide.")
         return
 
@@ -125,7 +130,13 @@ def traiter_import(sources):
         print("❌ Opération annulée.")
         return
 
-    print("✅ Validation reçue.")
-
     ssh_user, sudo_password = obtenir_ssh_credentials()
-    import_database_with_verification(destination, ssh_user, sudo_password, str(EXPORT_PATH))
+    result = import_database_with_verification(destination, ssh_user, sudo_password)
+
+    if result.get("status") == "error":
+        print("❌ Erreur durant l’import de la base.")
+        print(f"🧨 Détail : {result.get('message', 'Erreur inconnue')}")
+        return
+
+    print("✅ Import prêt !")
+    print(f"✔ Étape : {result.get('step')} | Message : {result.get('message')} ")

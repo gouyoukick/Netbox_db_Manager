@@ -18,7 +18,7 @@ from backend.auth_session import (
 )
 
 # titre et version logiciel
-titre = "Network_db_Manager: v 0.5"
+titre = "Network_db_Manager: v0.5"
 print("#" * len(titre))
 print(titre)
 print("#" * len(titre))
@@ -43,7 +43,6 @@ def main():
             if source_choisie is None:
                 continue
 
-            # Authentification d'abord
             if not is_ssh_credentials_set():
                 ssh_user = input("Entrez le nom d’utilisateur SSH : ").strip()
                 sudo_password = input("Entrez le mot de passe sudo : ")

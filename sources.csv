@@ -5,4 +5,4 @@ NETBOX-SMALLBIRD-LIVE,172.19.2.1,netbox-smallbird-live-postgres
 NETBOX-SMALLBIRD-PREP,172.19.2.1,netbox-smallbird-prep-postgres
 NETBOX-BIGBIRD-LIVE,172.19.2.1,netbox-bigbird-live-postgres
 NETBOX-BIGBIRD-PREP,172.19.2.1,netbox-bigbird-prep-postgres
-Netbox Local,10.40.10.160,netbox-postgres
+NETBOX-LOCAL,10.40.10.160,netbox-postgres
