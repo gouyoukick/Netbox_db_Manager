@@ -162,27 +162,50 @@ def delete_database(ip: str, container: str, ssh_user: str, sudo_password: str):
 def push_new_database(ip: str, container: str, ssh_user: str, sudo_password: str, is_local: bool):
     """
     Importe un dump SQL dans la base NetBox.
-    Retourne un dict avec le statut et le message.
+    Reproduce la commande Git Bash en SSH :
+      sudo docker exec -i <container> psql -U netbox-user -d netbox < <fichier>
+    Affiche la progression en direct.
     """
     try:
-        # Détermine le chemin du fichier SQL à importer
-        if is_local:
-            import_path = f"/volume1/homes/gravity/temp/{container}/import.sql"
+        # Choix du chemin d'import sur l'hôte distant
+        if not is_local:
+            # NAS Synology
+            base_dir = "/volume1/homes/gravity/temp"
+            docker_bin = "/usr/local/bin/docker"
         else:
-            import_path = f"~/temp/{container}/import.sql"
-        cmd = (
-            f'"{GIT_SSH}" -i "{SSH_KEY}" {ssh_user}@{ip} '
-            f'"sudo docker exec -i {container} psql -U netbox-user -d netbox < {import_path}"'
+            # Serveur local
+            base_dir = "/home/gravity/temp"
+            docker_bin = "docker"
+        remote_file = f"{base_dir}/{container}/import.sql"
+
+        # Construction de la commande distante : pipe du mot de passe dans sudo, redirection locale par sh -c
+        remote_cmd = (
+            f"echo '{sudo_password}' | sudo -S sh -c '"  
+            f"{docker_bin} exec -i {container} psql -U netbox-user -d netbox < {remote_file}'"
         )
-        proc = subprocess.run(cmd, shell=True, capture_output=True, text=True)
-        # Debug output
-        print("DEBUG push_new_database stdout:", proc.stdout)
-        print("DEBUG push_new_database stderr:", proc.stderr)
+
+        # Appel SSH avec pseudo-tty pour affichage en direct
+        ssh_cmd = [
+            GIT_SSH,
+            "-t",
+            "-i", SSH_KEY,
+            f"{ssh_user}@{ip}",
+            remote_cmd
+        ]
+
+        # Debug: commande complète
+        print("DEBUG push_new_database SSH CMD:", ssh_cmd)
+
+        # Exécution bloquante, affiche stdout/stderr en direct
+        proc = subprocess.run(ssh_cmd, text=True)
+
         if proc.returncode != 0:
             print("echec import db")
-            return {"status": "error", "step": "push_new_database", "message": proc.stderr.strip()}
+            return {"status": "error", "step": "push_new_database", "message": f"Return code {proc.returncode}"}
+
         print("OK import db")
         return {"status": "ok", "step": "push_new_database"}
+
     except Exception as e:
         print("DEBUG push_new_database exception:", str(e))
         print("echec import db")
