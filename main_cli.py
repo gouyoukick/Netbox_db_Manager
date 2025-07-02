@@ -1,4 +1,5 @@
 # === main_cli.py ===
+import getpass
 
 from frontend import (
     afficher_menu_principal,
@@ -11,14 +12,15 @@ from frontend import (
 )
 from main import get_sources
 from backend.export_utils import verifier_sudo_password
-from backend.auth_session import (
+import getpass
+from frontend import (
     get_ssh_credentials,
     is_ssh_credentials_set,
     set_ssh_credentials
 )
 
 # titre et version logiciel
-titre = "Network_db_Manager: v0.5"
+titre = "Network_db_Manager: v1.0"
 print("#" * len(titre))
 print(titre)
 print("#" * len(titre))
@@ -45,7 +47,7 @@ def main():
 
             if not is_ssh_credentials_set():
                 ssh_user = input("Entrez le nom d’utilisateur SSH : ").strip()
-                sudo_password = input("Entrez le mot de passe sudo : ")
+                sudo_password = getpass.getpass("Entrez le mot de passe sudo : ")
                 set_ssh_credentials(ssh_user, sudo_password)
 
             ssh_user, sudo_password = get_ssh_credentials()

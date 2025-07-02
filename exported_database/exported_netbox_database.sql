@@ -8443,6 +8443,7 @@ tymypiywbcbrcfrwlhky0k97tksff311	.eJxVjEsKAjEQRO-StQyazk-XXkBvEJLuDoliBiYZEMS7mw
 nk04e1isrbjs0ev3i06xqchg7spul11y	.eJxVjEsKAjEQRO-StQyazk-XXkBvEJLuDoliBiYZEMS7mwEXWrt69aiX8GHt2a-NF19InMRB7H5ZDHjnug2Ve5yf0zZx7QVDL3OdLvHG2K-8PEprA5y__t9JDi2PBzIASbOKTA6si8qS2Se2clQDEjihY7IqJE1SOQWIw5RmRJtjsuL9AUr5OlE:1uRAdL:Po3TgsC7PQhs_X1JayExXBv-_sjMvYhskorMGQ9IN44	2025-06-30 14:16:23.28706+00
 1uv6cfuzgij58ubb0dlsws3t7drzfa5t	.eJxVjEsKAjEQRO-StQyazk-XXkBvEJLuDoliBiYZEMS7mwEXWrt69aiX8GHt2a-NF19InMRB7H5ZDHjnug2Ve5yf0zZx7QVDL3OdLvHG2K-8PEprA5y__t9JDi2PBzIASbOKTA6si8qS2Se2clQDEjihY7IqJE1SOQWIw5RmRJtjsuL9AUr5OlE:1uRCIO:y7pIsnmYVGJyoExucyVTcyA6QGvW4Xvcp74htm19j10	2025-06-30 16:02:52.604725+00
 tree8ow6io3nk8lh55ojaocbzvy9k2yo	.eJxVjEsKAjEQRO-StQyazk-XXkBvEJLuDoliBiYZEMS7mwEXWrt69aiX8GHt2a-NF19InMRB7H5ZDHjnug2Ve5yf0zZx7QVDL3OdLvHG2K-8PEprA5y__t9JDi2PBzIASbOKTA6si8qS2Se2clQDEjihY7IqJE1SOQWIw5RmRJtjsuL9AUr5OlE:1uSzar:VoOO8NzeIY25o1M4lsRmnMARlunzK2dBrh0L_Sf8cXo	2025-07-05 14:53:21.745595+00
+vcza473r1oqitofzn53ao2rma2ku8r8k	.eJxVjEsKAjEQRO-StQyazk-XXkBvEJLuDoliBiYZEMS7mwEXWrt69aiX8GHt2a-NF19InMRB7H5ZDHjnug2Ve5yf0zZx7QVDL3OdLvHG2K-8PEprA5y__t9JDi2PBzIASbOKTA6si8qS2Se2clQDEjihY7IqJE1SOQWIw5RmRJtjsuL9AUr5OlE:1uWE70:jJFkWKTInq1zogv501AefZAbLAF1dFbtRUYqnVyzdyg	2025-07-14 12:59:54.347875+00
 \.
 
 
@@ -9159,7 +9160,7 @@ COPY public.users_token (id, created, expires, key, write_enabled, description, 
 --
 
 COPY public.users_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
-1	pbkdf2_sha256$1000000$BpkkkYW7E5gwEJT2ZX35LU$5zUYieDEobOTN/9tHPP7euFu9GJT2EHHPdtsjqKqQDw=	2025-06-21 14:53:21.704904+00	t	admin			gravitymediafr1@gmail.com	t	t	2025-06-03 21:05:19.396043+00
+1	pbkdf2_sha256$1000000$BpkkkYW7E5gwEJT2ZX35LU$5zUYieDEobOTN/9tHPP7euFu9GJT2EHHPdtsjqKqQDw=	2025-06-30 12:59:54.154737+00	t	admin			gravitymediafr1@gmail.com	t	t	2025-06-03 21:05:19.396043+00
 \.
 
 
