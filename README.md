@@ -74,7 +74,7 @@ The system detects whether a source is local or remote based on the name and ip.
 Author
 Julien Gaulier
 GRAVITY MEDIA
-julien.gaulier@gravitymedia.com
+gaulierjulien@yahoo.fr
 
 License
 This project is licensed under the MIT License.
