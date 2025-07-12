@@ -35,7 +35,7 @@ The entire workflow is designed to be executed from the command line on a Window
 
 ## Directory Structure
 
-network_db_manager/
+</pre>network_db_manager/
 ├── backend/
 │ ├── auth_session.py # Manages SSH/sudo credentials
 │ ├── csv_utils.py # Loads source list from CSV
@@ -49,7 +49,7 @@ network_db_manager/
 ├── sources.csv # List of NetBox instances
 ├── exported_database/
 │ └── exported_netbox_database.sql
-└── README.md
+└── README.md</pre>
 
 
 ## sources.csv Format
