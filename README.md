@@ -35,21 +35,7 @@ The entire workflow is designed to be executed from the command line on a Window
 
 ## Directory Structure
 
-</pre>network_db_manager/
-├── backend/
-│ ├── auth_session.py # Manages SSH/sudo credentials
-│ ├── csv_utils.py # Loads source list from CSV
-│ ├── export_utils.py # Export logic (SSH, Docker, hash)
-│ ├── import_utils.py # Import logic (verify, SCP, inject)
-│ ├── hash_utils.py # SHA256 calculations
-├── frontend/
-│ └── main_cli.py # User-facing CLI logic
-├── frontend.py # CLI UI & dispatcher
-├── main.py # Entry point
-├── sources.csv # List of NetBox instances
-├── exported_database/
-│ └── exported_netbox_database.sql
-└── README.md</pre>
+<pre> network_db_manager/ ├── backend/ │ ├── auth_session.py # Manages SSH/sudo credentials │ ├── csv_utils.py # Loads source list from CSV │ ├── export_utils.py # Export logic (SSH, Docker, hash) │ ├── import_utils.py # Import logic (verify, SCP, inject) │ ├── hash_utils.py # SHA256 calculations ├── frontend/ │ └── main_cli.py # User-facing CLI logic ├── frontend.py # CLI UI & dispatcher ├── main.py # Entry point ├── sources.csv # List of NetBox instances ├── exported_database/ │ └── exported_netbox_database.sql └── README.md </pre>
 
 
 ## sources.csv Format
